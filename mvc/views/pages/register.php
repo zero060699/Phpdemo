@@ -35,6 +35,8 @@
               unset($_SESSION['error_password']);
           } ?> 
 
+
+
           <button type="submit" class="registerbtn" name="btnRegister">Register</button>
         </div>
 

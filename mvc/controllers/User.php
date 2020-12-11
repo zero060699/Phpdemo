@@ -69,9 +69,12 @@ class User extends Controller {
     public function postRegister() {
        // Lay du lieu tu` form nhap
        if(isset($_POST["btnRegister"])) {
+            
             $username = htmlspecialchars($_POST["username"]);
+            $username= trim(preg_replace('/\s+/',' ',$username));
             $email = htmlspecialchars($_POST["email"]);
-            $password = md5($_POST["password"]);
+            $password = htmlspecialchars($_POST["password"]);
+            $password = trim(preg_replace('/\s+/',' ',$password));
           
             // Validate Email
             if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -81,14 +84,31 @@ class User extends Controller {
 
             $checkEmail = $this->UserModel->checkUser($email);
             if($checkEmail) {
-                $_SESSION['error_email'] = "Email đã tồn tại";     
-                return header("location: http://localhost/php/User/register");
-            }
+                $_SESSION['error_email'] = "Email đã tồn tại"; 
+                echo "<script type='text/javascript'>alert('failed')</script>";
+                
+
+                // $email=false;
+                // if($_SESSION['email']==true){
+                //     echo "<script type='text/javascript'>alert('submitted successfully')</script>";
+                    return $this->view("/pages/register");
+                // }else{
+                //     echo "<script type='text/javascript'>alert('failed')</script>";
+                // }
+               }
 
             //Validate username
-            if (!preg_match("/^[a-zA-Z-' ]*$/",$username)) {
-                $_SESSION['error_username'] = "Tên không được có ký tự đặc biệt";              
+            if (!preg_match("/^[a-zA-Z0-9' ]*$/",$username)) {
+                $_SESSION['error_username'] = "Tên không được có ký tự đặc biệt";  
+                // $username= false;
+                // if($username){
+                //     $username=true;
+                //     echo "<script type='text/javascript'>alert('submitted successfully')</script>";
                 return  header("location: http://localhost/php/User/register");
+                // }else{
+                //     echo "<script type='text/javascript'>alert('failed')</script>";
+                // }          
+                
             }
  
             // Validate password
@@ -101,9 +121,14 @@ class User extends Controller {
                 $_SESSION['error_password'] = "Mật khẩu ít nhất 8 ký tự";     
                 return  header("location: http://localhost/php/User/register");
             }
+
+        
            // Insert Data 
            $result = $this->UserModel->createUser($username, $password , $email);
            // View
+           if($result){
+               $_SESSION['login']="Login successfull";
+           }
            header("location: http://localhost/php/User/login");
        }
     }

@@ -37,5 +37,11 @@
         </div>
     </div>
     </form>
+    <?php
+       if(isset($_SESSION['login'])){
+          echo "<script type='text/javascript'>alert('Register sucessfull')</script>";
+          unset($_SESSION['login']);
+       }
+    ?>
 </body>
 </html>

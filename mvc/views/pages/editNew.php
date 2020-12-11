@@ -16,9 +16,12 @@
                     unset($_SESSION['error']);
                 }
             ?>
-            <label for="content">Content</label>
-            <textarea id="subject" name="content" placeholder="Write something.." style="height:200px" required><?= $content  ?></textarea>
 
+            
+            <label for="content" >Content</label>
+            <textarea id="subject" name="content" placeholder="Write something.." style="height:200px" required><?= $content  ?></textarea>
+            
+            
             <button  type="submit" value="Submit" name="btn_store">Edit</button>
         </form>
     </div>
